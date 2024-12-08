@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplenode-deployment
+  labels:
+    app: simplenode
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simplenode
+  template:
+    metadata:
+      labels:
+        app: simplenode 
+    spec:
+      containers:
+      - name: simplenode
+        image: joaquimdelmonte/simplenode:v1
+        ports:
+        - containerPort: 3000
+        
+        
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: simplenode-service
+spec:
+  selector:
+    app: simplenode 
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 3000
+    nodePort: 31110
