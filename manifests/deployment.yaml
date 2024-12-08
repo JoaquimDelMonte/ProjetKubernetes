@@ -1,19 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app
+  name: static-site-deployment
+  labels:
+    app: static-site
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: node-app
+      app: static-site
   template:
     metadata:
       labels:
-        app: node-app
+        app: static-site
     spec:
       containers:
-        - name: node-app
-          image: node-app-image  # Nous utiliserons l'image que nous allons construire
-          ports:
-            - containerPort: 8080  # Le port exposé dans Docker
+      - name: static-site
+        image: joaquimdelmonte/projetnode:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
