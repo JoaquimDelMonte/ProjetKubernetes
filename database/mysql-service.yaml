@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306        # Port utilisé par MySQL
+      targetPort: 3306  # Port du conteneur
+      nodePort: 32001   # Port exposé sur le nœud
+  type: NodePort
