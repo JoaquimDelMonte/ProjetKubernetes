@@ -5,13 +5,16 @@ const mysql = require('mysql2');
 const app = express();
 const port = 3000;
 
+// Récupérer les informations de connexion à partir des variables d'environnement
+const dbConfig = {
+    host: 'mysql-service', // Nom du service Kubernetes MySQL
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+};
+
 // Configurer la connexion à la base de données
-const db = mysql.createConnection({
-    host: 'mysql-service',   // Nom du service Kubernetes MySQL
-    user: 'myuser',          // Nom d'utilisateur défini dans le déploiement
-    password: 'MyUserPassword', // Mot de passe défini dans le déploiement
-    database: 'tasksDB'
-});
+const db = mysql.createConnection(dbConfig);
 
 // Connecter à MySQL
 db.connect((err) => {
@@ -62,7 +65,7 @@ app.post('/complete', (req, res) => {
 
 // Démarrer le serveur
 app.listen(port, () => {
-    console.log("Serveur en cours d'exécution sur http://localhost:${port}");
+    console.log(`Serveur en cours d'exécution sur http://localhost:${port}`);
 });
 
 // Fonction pour initialiser la base de données
@@ -88,6 +91,6 @@ function initializeDatabase() {
                 if (err) throw err;
                 console.log('Base de données et table initialisées.');
             });
-        });
-    });
+        });
+    });
 }

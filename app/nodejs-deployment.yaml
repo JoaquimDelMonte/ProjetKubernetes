@@ -16,6 +16,22 @@ spec:
     spec:
       containers:
       - name: simplenode
-        image: joaquimdelmonte/simplenode:v6
+        image: joaquimdelmonte/simplenode:v8
         ports:
         - containerPort: 3000
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: database
